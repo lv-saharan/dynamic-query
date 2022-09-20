@@ -1,0 +1,27 @@
+{
+  "name": "dynamic-query",
+  "version": "1.0.0",
+  "description": "build a query object",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lv-saharan/dynamic-query.git"
+  },
+  "keywords": [
+    "query",
+    "sql",
+    "client",
+    "dynamic",
+    "query"
+  ],
+  "author": "lv-saharan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lv-saharan/dynamic-query/issues"
+  },
+  "homepage": "https://github.com/lv-saharan/dynamic-query#readme"
+}
