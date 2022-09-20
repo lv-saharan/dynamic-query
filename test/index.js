@@ -1,5 +1,5 @@
 import ConstraintType from '../src/constraint-type.js'
-import { Query } from '../src/index.js'
+import { Query } from '../src/index.js' 
 import Operator from '../src/operator.js'
 const q1 = new Query("Table")
 q1.Fields = ["a", "b", "c"]
