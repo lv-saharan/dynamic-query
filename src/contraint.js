@@ -1,107 +1,108 @@
+import Operator from "./operator.js"
 class Constraint {
-    #Query
+    #query
     /**
      * 
      * @param {String} type 
-     * @param {String} fieldName 
+     * @param {String} field 
      * @param {Query} query 
      * @param {Number} boost 
      */
-    constructor(type, fieldName, query) {
-        this.ConstraintType = type;
-        this.FieldName = fieldName;
-        this.Boost = 1.0;
-        this.Operator = null
-        this.Value = null
+    constructor(type, field, query) {
+        this.constraintType = type;
+        this.field = field;
+        this.boost = 1.0;
+        this.operator = null
+        this.value = null
 
-        this.#Query = query;
-        this.#Query.Constraints.push(this)
+        this.#query = query;
+        this.#query.constraints.push(this)
     }
 
-    SetBoost(boost) {
-        this.Boost = boost
+    setBoost(boost) {
+        this.boost = boost
         return this
     }
-    IsEqualTo(value) {
-        this.Operator = "IsEqualTo"
-        this.Value = value
-        return this.#Query
+    isEqualTo(value) {
+        this.operator = Operator.IsEqualTo
+        this.value = value
+        return this.#query
     }
-    IsNotEqualTo(value) {
-        this.Operator = "IsNotEqualTo"
-        this.Value = value
-        return this.#Query
+    isNotEqualTo(value) {
+        this.operator = Operator.IsNotEqualTo
+        this.value = value
+        return this.#query
     }
-    In(...value) {
-        this.Operator = "In"
-        this.Value = value
-        return this.#Query
+    in(...value) {
+        this.operator = Operator.In
+        this.value = value
+        return this.#query
     }
-    NotIn(...value) {
-        this.Operator = "NotIn"
-        this.Value = value
-        return this.#Query
+    notIn(...value) {
+        this.operator = Operator.NotIn
+        this.value = value
+        return this.#query
     }
-    IsBetweenAnd(...value) {
-        this.Operator = "IsBetweenAnd"
-        this.Value = value
-        return this.#Query
+    isBetweenAnd(...value) {
+        this.operator = Operator.IsBetweenAnd
+        this.value = value
+        return this.#query
     }
-    IsNotBetweenAnd(...value) {
-        this.Operator = "IsNotBetweenAnd"
-        this.Value = value
-        return this.#Query
+    isNotBetweenAnd(...value) {
+        this.operator = Operator.IsNotBetweenAnd
+        this.value = value
+        return this.#query
     }
-    IsGreaterThan(value) {
-        this.Operator = "IsGreaterThan"
-        this.Value = value
-        return this.#Query
+    isGreaterThan(value) {
+        this.operator = Operator.IsGreaterThan
+        this.value = value
+        return this.#query
     }
-    IsGreaterThanOrEqualTo(value) {
-        this.Operator = "IsGreaterThanOrEqualTo"
-        this.Value = value
-        return this.#Query
+    isGreaterThanOrEqualTo(value) {
+        this.operator = Operator.IsGreaterThanOrEqualTo
+        this.value = value
+        return this.#query
     }
-    IsLessThan(value) {
-        this.Operator = "IsLessThan"
-        this.Value = value
-        return this.#Query
+    isLessThan(value) {
+        this.operator = Operator.IsLessThan
+        this.value = value
+        return this.#query
     }
-    IsLessThanOrEqualTo(value) {
-        this.Operator = "IsLessThanOrEqualTo"
-        this.Value = value
-        return this.#Query
+    isLessThanOrEqualTo(value) {
+        this.operator = Operator.IsLessThanOrEqualTo
+        this.value = value
+        return this.#query
     }
 
-    Like(value) {
-        this.Operator = "Like"
-        this.Value = value
-        return this.#Query
+    like(value) {
+        this.operator = Operator.Like
+        this.value = value
+        return this.#query
     }
-    NotLike(value) {
-        this.Operator = "NotLike"
-        this.Value = value
-        return this.#Query
+    notLike(value) {
+        this.operator = Operator.NotLike
+        this.value = value
+        return this.#query
     }
-    StartsWith(value) {
-        this.Operator = "StartsWith"
-        this.Value = value
-        return this.#Query
+    startsWith(value) {
+        this.operator = Operator.StartsWith
+        this.value = value
+        return this.#query
     }
-    NotStartsWith(value) {
-        this.Operator = "NotStartsWith"
-        this.Value = value
-        return this.#Query
+    notStartsWith(value) {
+        this.operator = Operator.NotStartsWith
+        this.value = value
+        return this.#query
     }
-    EndsWith(value) {
-        this.Operator = "EndsWith"
-        this.Value = value
-        return this.#Query
+    endsWith(value) {
+        this.operator = Operator.EndsWith
+        this.value = value
+        return this.#query
     }
-    NotEndsWith(value) {
-        this.Operator = "NotEndsWith"
-        this.Value = value
-        return this.#Query
+    notEndsWith(value) {
+        this.operator = Operator.NotEndsWith
+        this.value = value
+        return this.#query
     }
 }
 

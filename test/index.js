@@ -1,13 +1,11 @@
-import ConstraintType from '../src/constraint-type.js'
-import { Query } from '../src/index.js' 
-import Operator from '../src/operator.js'
+import { Query, ConstraintType, Operator } from '../src/index.js'
 const q1 = new Query("Table")
-q1.Fields = ["a", "b", "c"]
+q1.fields.push("a", "b", "c")
 
-q1.Where("a").IsEqualTo(10)
-    .And("b").In(1, 2, 3)
-    .AndStartExpression("c").IsBetweenAnd(5, 6)
-    .OrEndExpression("c").IsBetweenAnd(7, 8)
+q1.where("a").isEqualTo(10)
+    .and("b").in(1, 2, 3)
+    .andStartExpression("c").isBetweenAnd(5, 6)
+    .orEndExpression("c").isBetweenAnd(7, 8)
 
 
 
@@ -39,27 +37,28 @@ const getEndConstraint = constraintType => {
 }
 const buildQuery = query => {
     const sqlWhere = []
-    for (let constraint of query.Constraints) {
-        sqlWhere.push(getStartConstraint(constraint.ConstraintType))
-        switch (constraint.Operator) {
+    for (let constraint of query.constraints) {
+        sqlWhere.push(getStartConstraint(constraint.constraintType))
+        switch (constraint.operator) {
             case Operator.In:
-                sqlWhere.push(`${constraint.FieldName} in (${constraint.Value.join(',')})`)
+                sqlWhere.push(`${constraint.field} in (${constraint.value.join(',')})`)
                 break;
             case Operator.IsEqualTo:
-                sqlWhere.push(`${constraint.FieldName} = ${constraint.Value}`)
+                sqlWhere.push(`${constraint.field} = ${constraint.value}`)
                 break;
             case Operator.IsBetweenAnd:
-                const [from, to] = constraint.Value
-                sqlWhere.push(`${constraint.FieldName} between ${from} and ${to}`)
+                const [from, to] = constraint.value
+                sqlWhere.push(`${constraint.field} between ${from} and ${to}`)
                 break
         }
-        sqlWhere.push(getEndConstraint(constraint.ConstraintType))
+        sqlWhere.push(getEndConstraint(constraint.constraintType))
     }
     return sqlWhere.join(' ')
 
 }
 
-console.log("query 1", q1)
+ 
+console.log("query 1", JSON.stringify(q1))
 
 
 console.log("query where:", buildQuery(q1))

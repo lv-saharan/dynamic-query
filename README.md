@@ -14,12 +14,12 @@ npm i dynamic-query
 import { Query } from 'dynamic-query'
 
 const q1 = new Query("Table")
-q1.Fields = ["a", "b", "c"]
+q1.fields.push("a", "b", "c")
 
-q1.Where("a").IsEqualTo(10)
-    .And("b").In(1, 2, 3)
-    .AndStartExpression("c").IsBetweenAnd(5, 6)
-    .OrEndExpression("c").IsBetweenAnd(7, 8)
+q1.where("a").isEqualTo(10)
+    .and("b").in(1, 2, 3)
+    .andStartExpression("c").isBetweenAnd(5, 6)
+    .orEndExpression("c").isBetweenAnd(7, 8)
 
 ```
  
@@ -36,15 +36,15 @@ $.post(...,q1)
 
 const getStartConstraint = constraintType => {
     switch (constraintType) {
-        case ConstraintType.And:
-        case ConstraintType.AndEndExpression:
+        case constraintType.And:
+        case constraintType.AndEndExpression:
             return "And"
-        case ConstraintType.AndStartExpression:
+        case constraintType.AndStartExpression:
             return "And ("
-        case ConstraintType.Or:
-        case ConstraintType.OrEndExpression:
+        case constraintType.Or:
+        case constraintType.OrEndExpression:
             return "OR"
-        case ConstraintType.OrStartExpression:
+        case constraintType.OrStartExpression:
             return "OR ("
     }
     return ""
@@ -53,30 +53,30 @@ const getStartConstraint = constraintType => {
 
 const getEndConstraint = constraintType => {
     switch (constraintType) {
-        case ConstraintType.AndEndExpression:
-        case ConstraintType.OrEndExpression:
-        case ConstraintType.CloseExpression:
+        case constraintType.AndEndExpression:
+        case constraintType.OrEndExpression:
+        case constraintType.CloseExpression:
             return ")"
     }
     return ""
 }
 const buildQuery = query => {
     const sqlWhere = []
-    for (let constraint of query.Constraints) {
-        sqlWhere.push(getStartConstraint(constraint.ConstraintType))
-        switch (constraint.Operator) {
+    for (let constraint of query.constraints) {
+        sqlWhere.push(getStartConstraint(constraint.constraintType))
+        switch (constraint.operator) {
             case Operator.In:
-                sqlWhere.push(`${constraint.FieldName} in (${constraint.Value.join(',')})`)
+                sqlWhere.push(`${constraint.field} in (${constraint.value.join(',')})`)
                 break;
             case Operator.IsEqualTo:
-                sqlWhere.push(`${constraint.FieldName} = ${constraint.Value}`)
+                sqlWhere.push(`${constraint.field} = ${constraint.value}`)
                 break;
             case Operator.IsBetweenAnd:
-                const [from, to] = constraint.Value
-                sqlWhere.push(`${constraint.FieldName} between ${from} and ${to}`)
+                const [from, to] = constraint.value
+                sqlWhere.push(`${constraint.field} between ${from} and ${to}`)
                 break
         }
-        sqlWhere.push(getEndConstraint(constraint.ConstraintType))
+        sqlWhere.push(getEndConstraint(constraint.constraintType))
     }
     return sqlWhere.join(' ')
 
@@ -89,7 +89,7 @@ const buildQuery = query => {
 a = 10  And b in (1,2,3)  And ( c between 5 and 6  OR c between 7 and 8 )
 ```
 
-## Constraints
+## constraints
 ``` javascript
  {
     Where: "Where",

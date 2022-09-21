@@ -1,68 +1,96 @@
 import Constraint from "./contraint.js"
 import ConstraintType from "./constraint-type.js"
-
+import Operator from "./operator.js"
 class Query {
-    Fields = []
-    Constraints = []
-    DistinctBy = []
-    Orders = []
-    From = null
-    constructor(from) {
-        this.From = from
+    #fields = []
+    #constraints = []
+    #distinctBy = []
+    #orderBy = []
+    #groupby = []
+    #froms = []
+
+    GGGG
+    get fields() {
+        return this.#fields
     }
-    Where(fieldName) {
-        return new Constraint(ConstraintType.Where, fieldName, this);
+    get constraints() {
+        return this.#constraints
     }
-    And(fieldName) {
-        return new Constraint(ConstraintType.And, fieldName, this);
+    get distinctBy() {
+        return this.#distinctBy
     }
-    Or(fieldName) {
-        return new Constraint(ConstraintType.Or, fieldName, this);
+    get orderBy() {
+        return this.#orderBy
     }
-    AndExpression(fieldName) {
-        return new Constraint(ConstraintType.AndStartExpression, fieldName, this);
+    get groupBy() {
+        return this.#groupby
     }
-    OrExpression(fieldName) {
-        return new Constraint(ConstraintType.OrStartExpression, fieldName, this);
+
+    get froms() {
+        return this.#froms
     }
-    EndAndExpression(fieldName) {
-        return new Constraint(ConstraintType.AndEndExpression, fieldName, this);
+    where(field) {
+        return new Constraint(ConstraintType.Where, field, this);
     }
-    EndOrExpression(fieldName) {
-        return new Constraint(ConstraintType.OrEndExpression, fieldName, this);
+    and(field) {
+        return new Constraint(ConstraintType.And, field, this);
     }
-    AndEndExpression(fieldName) {
-        return new Constraint(ConstraintType.AndEndExpression, fieldName, this);
+    or(field) {
+        return new Constraint(ConstraintType.Or, field, this);
     }
-    OrEndExpression(fieldName) {
-        return new Constraint(ConstraintType.OrEndExpression, fieldName, this);
+    andExpression(field) {
+        return new Constraint(ConstraintType.AndStartExpression, field, this);
     }
-    CloseExpression() {
+    orExpression(field) {
+        return new Constraint(ConstraintType.OrStartExpression, field, this);
+    }
+    endAndExpression(field) {
+        return new Constraint(ConstraintType.AndEndExpression, field, this);
+    }
+    endOrExpression(field) {
+        return new Constraint(ConstraintType.OrEndExpression, field, this);
+    }
+    andEndExpression(field) {
+        return new Constraint(ConstraintType.AndEndExpression, field, this);
+    }
+    orEndExpression(field) {
+        return new Constraint(ConstraintType.OrEndExpression, field, this);
+    }
+    closeExpression() {
         this.Constraints.push(new Constraint(ConstraintType.CloseExpression));
         return this;
     }
-    AndStartExpression(fieldName) {
-        return new Constraint(ConstraintType.AndStartExpression, fieldName, this);
+    andStartExpression(field) {
+        return new Constraint(ConstraintType.AndStartExpression, field, this);
     }
-    OrStartExpression(fieldName) {
-        return new Constraint(ConstraintType.OrStartExpression, fieldName, this);
+    orStartExpression(field) {
+        return new Constraint(ConstraintType.OrStartExpression, field, this);
     }
 
-    OrderBy(fieldName) {
-        this.Orders.push(new {
-            FieldName: fieldName,
-            Aspect: "ASC"
+    orderBy(field) {
+        this.orderBy.push(new {
+            field,
+            aspect: "ASC"
         })
         return this
     }
-    OrderByDescending(fieldName) {
-        this.Orders.push(new {
-            FieldName: fieldName,
-            Aspect: "DESC"
+    orderByDescending(field) {
+        this.orderBy.push(new {
+            field,
+            aspect: "DESC"
         });
         return this
     }
+    toJSON() {
+        return {
+            fields: this.fields,
+            constraints: this.constraints,
+            orderBy: this.orderBy,
+            groupBy: this.groupBy,
+            distinctBy: this.distinctBy,
+            froms: this.froms
+        }
+    }
 }
 
-export default Query
-export { Query }
+export { Query, Operator, ConstraintType }
