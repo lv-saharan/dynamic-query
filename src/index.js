@@ -8,8 +8,24 @@ class Query {
     #orderBy = []
     #groupby = []
     #froms = []
-
-    GGGG
+    #rows = 1
+    #offet = 0
+    get rows() {
+        return this.#rows
+    }
+    set rows(val) {
+        if (typeof val === "number" && val > 0) {
+            this.#rows = Number.parseInt(val)
+        }
+    }
+    get offset() {
+        return this.#offet
+    }
+    set offset(val) {
+        if (typeof val === "number" && val > 0) {
+            this.#offet = Number.parseInt(val)
+        }
+    }
     get fields() {
         return this.#fields
     }
@@ -88,7 +104,9 @@ class Query {
             orderBy: this.orderBy,
             groupBy: this.groupBy,
             distinctBy: this.distinctBy,
-            froms: this.froms
+            froms: this.froms,
+            rows: this.rows,
+            offset: this.offset
         }
     }
 }
