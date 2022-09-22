@@ -6,6 +6,7 @@ q1.where("a").isEqualTo(10)
     .and("b").in(1, 2, 3)
     .andStartExpression("c").isBetweenAnd(5, 6)
     .orEndExpression("c").isBetweenAnd(7, 8)
+    .and("b").isBetweenAnd(2, 3)
 
 
 
@@ -57,7 +58,7 @@ const buildQuery = query => {
 
 }
 
- 
+
 console.log("query 1", JSON.stringify(q1))
 
 
