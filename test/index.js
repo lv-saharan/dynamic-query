@@ -1,13 +1,15 @@
-import { Query, ConstraintType, Operator } from '../src/index.js'
-const q1 = new Query("Table")
-q1.fields.push("a", "b", "c")
+import { query, table, ConstraintType, Operator } from '../src/index.js'
 
-q1.where("a").isEqualTo(10)
+const q1 = query(table("table1").join("table2").on("table1.table1Id", "table2.table1Id"))
+    .select("a", "b", "c")
+    .where("a").isEqualTo(10)
     .and("b").in(1, 2, 3)
     .andStartExpression("c").isBetweenAnd(5, 6)
     .orEndExpression("c").isBetweenAnd(7, 8)
     .and("b").isBetweenAnd(2, 3)
-
+    .orderBy('a')
+    .orderByDescending('b')
+    .groupBy('a','b','c')
 
 
 const getStartConstraint = constraintType => {
