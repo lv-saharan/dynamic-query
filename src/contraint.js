@@ -22,7 +22,7 @@ class Constraint {
     /**
      * 设置权重
      * @param {Number} boost 
-     * @returns Constraint
+     * @returns {Constraint}
      */
     setBoost(boost) {
         this.boost = boost
@@ -31,7 +31,7 @@ class Constraint {
     /**
      * 相等
      * @param {*} value 
-     * @returns Query
+     * @returns {Query}
      */
     isEqualTo(value) {
         this.operator = Operator.IsEqualTo
@@ -41,7 +41,7 @@ class Constraint {
     /**
      * 不相等
      * @param {*} value 
-     * @returns Query
+     * @returns {Query}
      */
     isNotEqualTo(value) {
         this.operator = Operator.IsNotEqualTo
@@ -51,7 +51,7 @@ class Constraint {
     /**
      * 包含值
      * @param  {...any} value 
-     * @returns  Query
+     * @returns  {Query}
      */
     in(...value) {
         this.operator = Operator.In
@@ -62,7 +62,7 @@ class Constraint {
     /**
      * 不包含值
      * @param  {...any} value 
-     * @returns Query
+     * @returns {Query}
      */
     notIn(...value) {
         this.operator = Operator.NotIn
@@ -72,7 +72,7 @@ class Constraint {
     /**
      * 两个值之间
      * @param  {...any} value 
-     * @returns Query
+     * @returns {Query}
      */
     isBetweenAnd(...value) {
         this.operator = Operator.IsBetweenAnd
@@ -82,7 +82,7 @@ class Constraint {
     /**
      * 不在两个值之间
      * @param  {...any} value 
-     * @returns Query
+     * @returns {Query}
      */
     isNotBetweenAnd(...value) {
         this.operator = Operator.IsNotBetweenAnd
@@ -92,7 +92,7 @@ class Constraint {
     /**
     * 大于
     * @param  {any} value 
-    * @returns Query
+    * @returns {Query}
     */
     isGreaterThan(value) {
         this.operator = Operator.IsGreaterThan
@@ -102,7 +102,7 @@ class Constraint {
     /**
      * 大于等于
      * @param {*} value 
-     * @returns Query
+     * @returns {Query}
      */
     isGreaterThanOrEqualTo(value) {
         this.operator = Operator.IsGreaterThanOrEqualTo
@@ -112,7 +112,7 @@ class Constraint {
     /**
      * 小于
      * @param {*} value 
-     * @returns Query
+     * @returns {Query}
      */
     isLessThan(value) {
         this.operator = Operator.IsLessThan
@@ -122,7 +122,7 @@ class Constraint {
     /**
      * 小于等于
      * @param {*} value 
-     * @returns Query
+     * @returns {Query}
      */
     isLessThanOrEqualTo(value) {
         this.operator = Operator.IsLessThanOrEqualTo
@@ -132,7 +132,7 @@ class Constraint {
     /**
      * LIKE
      * @param {String} value 
-     * @returns Query
+     * @returns {Query}
      */
     like(value) {
         this.operator = Operator.Like
@@ -142,7 +142,7 @@ class Constraint {
     /**
      * Not Like
      * @param {String} value 
-     * @returns Query
+     * @returns {Query}
      */
     notLike(value) {
         this.operator = Operator.NotLike
@@ -152,7 +152,7 @@ class Constraint {
     /**
      * startsWith
      * @param {String} value 
-     * @returns Query
+     * @returns {Query}
      */
     startsWith(value) {
         this.operator = Operator.StartsWith
@@ -162,7 +162,7 @@ class Constraint {
     /**
      * notStartsWith 
      * @param {String} value 
-     * @returns Query
+     * @returns {Query}
      */
     notStartsWith(value) {
         this.operator = Operator.NotStartsWith
@@ -172,7 +172,7 @@ class Constraint {
     /**
      * endsWith
      * @param {String} value 
-     * @returns Query
+     * @returns {Query}
      */
     endsWith(value) {
         this.operator = Operator.EndsWith
@@ -182,7 +182,7 @@ class Constraint {
     /**
      * notEndsWith
      * @param {String} value 
-     * @returns Query
+     * @returns {Query}
      */
     notEndsWith(value) {
         this.operator = Operator.NotEndsWith

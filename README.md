@@ -11,16 +11,16 @@ npm i dynamic-query
 ## create query
 
 ```javascript
-import { Query } from 'dynamic-query'
+import { query,Query } from 'dynamic-query'
 
-const q1 = new Query("Table")
-q1.fields.push("a", "b", "c")
-
-q1.where("a").isEqualTo(10)
+const q1 = query('table')
+    .select('a','b','c')
+    .where("a").isEqualTo(10)
     .and("b").in(1, 2, 3)
     .andStartExpression("c").isBetweenAnd(5, 6)
     .orEndExpression("c").isBetweenAnd(7, 8)
-
+    .orderBy('a')
+    .groupBy('a','b','c')
 ```
  
 ## post to server

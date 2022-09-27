@@ -1,12 +1,14 @@
 import Constraint from "./contraint.js"
 import ConstraintType from "./constraint-type.js"
 import Operator from "./operator.js"
+import Table, { table } from './table.js'
+
 class Query {
     #fields = []
     #constraints = []
-    #distinctBy = []
-    #orderBy = []
-    #groupby = []
+    #distinctsBy = []
+    #ordersBy = []
+    #groupsby = []
     #froms = []
     #rows = 1
     #offet = 0
@@ -32,23 +34,32 @@ class Query {
     get constraints() {
         return this.#constraints
     }
-    get distinctBy() {
-        return this.#distinctBy
+    get distinctsBy() {
+        return this.#distinctsBy
     }
-    get orderBy() {
-        return this.#orderBy
+    get ordersBy() {
+        return this.#ordersBy
     }
-    get groupBy() {
-        return this.#groupby
+    get groupsBy() {
+        return this.#groupsby
     }
 
     get froms() {
         return this.#froms
     }
     /**
+     * select ...fields
+     * @param  {...String} fields 
+     * @returns {Query}
+     */
+    select(...fields) {
+        this.#fields.push(...fields);
+        return this
+    }
+    /**
      * Where field ...
      * @param {String} field 
-     * @returns Constraint
+     * @returns {Constraint}
      */
     where(field) {
         return new Constraint(ConstraintType.Where, field, this);
@@ -56,7 +67,7 @@ class Query {
     /**
      * And field ...
      * @param {String} field 
-     * @returns Constraint
+     * @returns {Constraint}
      */
     and(field) {
         return new Constraint(ConstraintType.And, field, this);
@@ -64,7 +75,7 @@ class Query {
     /**
      * Or field ...
      * @param {String} field 
-     * @returns Constraint
+     * @returns {Constraint}
      */
     or(field) {
         return new Constraint(ConstraintType.Or, field, this);
@@ -72,7 +83,7 @@ class Query {
     /**
     * And ( field ...
     * @param {String} field 
-    * @returns Constraint
+    * @returns {Constraint}
     */
     andStartExpression(field) {
         return new Constraint(ConstraintType.AndStartExpression, field, this);
@@ -80,7 +91,7 @@ class Query {
     /**
      * Or ( field ...
      * @param {String} field 
-     * @returns Constraint
+     * @returns {Constraint}
      */
     orStartExpression(field) {
         return new Constraint(ConstraintType.OrStartExpression, field, this);
@@ -88,7 +99,7 @@ class Query {
     /**
      * And field ...)
      * @param {String} field 
-     * @returns Constraint
+     * @returns {Constraint}
      */
     andEndExpression(field) {
         return new Constraint(ConstraintType.AndEndExpression, field, this);
@@ -96,7 +107,7 @@ class Query {
     /**
      * Or field ... )
      * @param {String} field 
-     * @returns Constraint
+     * @returns {Constraint}
      */
     orEndExpression(field) {
         return new Constraint(ConstraintType.OrEndExpression, field, this);
@@ -104,7 +115,7 @@ class Query {
     /**
      * )
      * @param {String} field 
-     * @returns Constraint
+     * @returns {Constraint}
      */
     closeExpression() {
         this.Constraints.push(new Constraint(ConstraintType.CloseExpression));
@@ -114,39 +125,65 @@ class Query {
     /**
      * orderBy field asc
      * @param {String} field 
-     * @returns Constraint
+     * @returns {Query}
      */
-    orderBy(field) {
-        this.orderBy.push(new {
+    orderBy(field, aspect = "ASC") {
+        this.#ordersBy.push({
             field,
-            aspect: "ASC"
+            aspect
         })
         return this
     }
     /**
+     * group By
+     * @param  {...String} fields 
+     * @returns {Query}
+     */
+    groupBy(...fields) {
+        this.#groupsby.push(...fields)
+        return this;
+    }
+    /**
      * orderBy field desc
      * @param {String} field 
-     * @returns Constraint
+     * @returns {Query}
      */
     orderByDescending(field) {
-        this.orderBy.push(new {
+        this.#ordersBy.push({
             field,
             aspect: "DESC"
         });
         return this
     }
+    /**
+     * from table
+     * @param  {...any} tables 
+     * @returns {Query}
+     */
+    from(...tables) {
+        this.#froms.push(...tables)
+        return this;
+    }
+
     toJSON() {
         return {
             fields: this.fields,
             constraints: this.constraints,
-            orderBy: this.orderBy,
-            groupBy: this.groupBy,
-            distinctBy: this.distinctBy,
+            ordersBy: this.ordersBy,
+            groupsBy: this.groupsBy,
+            distinctsBy: this.distinctsBy,
             froms: this.froms,
             rows: this.rows,
             offset: this.offset
         }
     }
 }
-
-export { Query, Operator, ConstraintType }
+/**
+ * create Query
+ * @param  {...any} froms 
+ * @returns {Query}
+ */
+export function query(...froms) {
+    return new Query().from(...froms)
+}
+export { Query, Operator, ConstraintType, table, Table }
