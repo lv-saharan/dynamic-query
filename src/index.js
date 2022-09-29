@@ -164,6 +164,13 @@ class Query {
         this.#froms.push(...tables)
         return this;
     }
+    /**
+     * post more easy
+     * @returns String
+     */
+    toString() {
+        return JSON.stringify(this.toJSON());
+    }
 
     toJSON() {
         return {

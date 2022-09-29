@@ -9,8 +9,11 @@ const q1 = query(table("table1").join("table2").on("table1.table1Id", "table2.ta
     .and("b").isBetweenAnd(2, 3)
     .orderBy('a')
     .orderByDescending('b')
-    .groupBy('a','b','c')
+    .groupBy('a', 'b', 'c')
+    
+    
 
+console.log("q1", q1.toString())
 
 const getStartConstraint = constraintType => {
     switch (constraintType) {
