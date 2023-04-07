@@ -1,5 +1,7 @@
 # dynamic-query
+
 build a query object
+
 # install
 
 ```bash
@@ -11,86 +13,89 @@ npm i dynamic-query
 ## create query
 
 ```javascript
-import { query,Query } from 'dynamic-query'
+import { query, Query } from "dynamic-query";
 
-const q1 = query('table')
-    .select('a','b','c')
-    .where("a").isEqualTo(10)
-    .and("b").in(1, 2, 3)
-    .andStartExpression("c").isBetweenAnd(5, 6)
-    .orEndExpression("c").isBetweenAnd(7, 8)
-    .orderBy('a')
-    .groupBy('a','b','c')
+const q1 = query("table")
+  .select("a", "b", "c")
+  .where("a")
+  .isEqualTo(10)
+  .and("b")
+  .in(1, 2, 3)
+  .andStartExpression("c")
+  .isBetweenAnd(5, 6)
+  .orEndExpression("c")
+  .isBetweenAnd(7, 8)
+  .orderBy("a")
+  .groupBy("a", "b", "c");
 ```
- 
+
 ## post to server
+
 ```javascript
 $.post(...,q1)
 ```
 
 ## build a query use server code
-``` javascript
+
+```javascript
 //demo
 
+const getStartConstraint = (constraintType) => {
+  switch (constraintType) {
+    case constraintType.And:
+    case constraintType.AndEndExpression:
+      return "And";
+    case constraintType.AndStartExpression:
+      return "And (";
+    case constraintType.Or:
+    case constraintType.OrEndExpression:
+      return "OR";
+    case constraintType.OrStartExpression:
+      return "OR (";
+  }
+  return "";
+};
 
-
-const getStartConstraint = constraintType => {
-    switch (constraintType) {
-        case constraintType.And:
-        case constraintType.AndEndExpression:
-            return "And"
-        case constraintType.AndStartExpression:
-            return "And ("
-        case constraintType.Or:
-        case constraintType.OrEndExpression:
-            return "OR"
-        case constraintType.OrStartExpression:
-            return "OR ("
+const getEndConstraint = (constraintType) => {
+  switch (constraintType) {
+    case constraintType.AndEndExpression:
+    case constraintType.OrEndExpression:
+    case constraintType.CloseExpression:
+      return ")";
+  }
+  return "";
+};
+const buildQuery = (query) => {
+  const sqlWhere = [];
+  for (let constraint of query.constraints) {
+    sqlWhere.push(getStartConstraint(constraint.constraintType));
+    switch (constraint.operator) {
+      case Operator.In:
+        sqlWhere.push(`${constraint.field} in (${constraint.value.join(",")})`);
+        break;
+      case Operator.IsEqualTo:
+        sqlWhere.push(`${constraint.field} = ${constraint.value}`);
+        break;
+      case Operator.IsBetweenAnd:
+        const [from, to] = constraint.value;
+        sqlWhere.push(`${constraint.field} between ${from} and ${to}`);
+        break;
     }
-    return ""
-
-}
-
-const getEndConstraint = constraintType => {
-    switch (constraintType) {
-        case constraintType.AndEndExpression:
-        case constraintType.OrEndExpression:
-        case constraintType.CloseExpression:
-            return ")"
-    }
-    return ""
-}
-const buildQuery = query => {
-    const sqlWhere = []
-    for (let constraint of query.constraints) {
-        sqlWhere.push(getStartConstraint(constraint.constraintType))
-        switch (constraint.operator) {
-            case Operator.In:
-                sqlWhere.push(`${constraint.field} in (${constraint.value.join(',')})`)
-                break;
-            case Operator.IsEqualTo:
-                sqlWhere.push(`${constraint.field} = ${constraint.value}`)
-                break;
-            case Operator.IsBetweenAnd:
-                const [from, to] = constraint.value
-                sqlWhere.push(`${constraint.field} between ${from} and ${to}`)
-                break
-        }
-        sqlWhere.push(getEndConstraint(constraint.constraintType))
-    }
-    return sqlWhere.join(' ')
-
-}
-
+    sqlWhere.push(getEndConstraint(constraint.constraintType));
+  }
+  return sqlWhere.join(" ");
+};
 ```
 
 ## out put
+
 ```sql
 a = 10  And b in (1,2,3)  And ( c between 5 and 6  OR c between 7 and 8 )
 ```
 
 ## constraints
-``` javascript
+
+```javascript
  {
     Where: "Where",
     And: "And",
@@ -104,6 +109,7 @@ a = 10  And b in (1,2,3)  And ( c between 5 and 6  OR c between 7 and 8 )
 ```
 
 ## Operators
+
 ```javascript
 {
     IsEqualTo: "IsEqualTo",
@@ -123,4 +129,35 @@ a = 10  And b in (1,2,3)  And ( c between 5 and 6  OR c between 7 and 8 )
     EndWith: "EndWith",
     NotEndWith: "NotEndWith"
 }
+```
+
+## insert
+
+```javascript
+import { insert } from "dynamic-query";
+
+const insertUser = insert("user", { name: "lv", age: 99 });
+
+console.log("insert user", updateUser.toString());
+```
+
+## update
+
+```javascript
+import { update } from "dynamic-query";
+
+const updateUser = update("user", { name: "lv", age: 99 });
+
+updateUser.where("age").isGreaterThan(90).and("age").isLessThan(98);
+
+console.log("update user", updateUser.toString());
+```
+
+## delete
+
+```javascript
+import { del } from "dynamic-query";
+const delUsers = del("user").where("age").isGreaterThan(29);
+
+console.log("del user", delUsers.toString());
 ```
