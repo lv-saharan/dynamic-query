@@ -1,6 +1,7 @@
 # dynamic-query
 
-build a query object
+build a query object 
+
 用js构建类sql的语句解构，可以把前端的查询或其他操作通过通用的结构传递给后端，后端解析结构后可以应用相关逻辑执行。
 
 # install
