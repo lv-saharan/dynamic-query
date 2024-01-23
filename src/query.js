@@ -7,6 +7,9 @@ export default class Query extends Where {
   #froms = [];
   #rows = 1;
   #offet = 0;
+  #pageNumber = NaN;
+  #pageSize = NaN;
+
   get rows() {
     return this.#rows;
   }
@@ -40,6 +43,12 @@ export default class Query extends Where {
   get froms() {
     return this.#froms;
   }
+  get pageNumber() {
+    return this.#pageNumber;
+  }
+  get pageSize() {
+    return this.#pageSize;
+  }
   /**
    * select ...fields
    * @param  {...String} fields
@@ -50,6 +59,24 @@ export default class Query extends Where {
     return this;
   }
 
+  /**
+   * 获取顶部n行数据
+   *
+   * @param n 获取的行数
+   * @returns 返回当前对象
+   */
+  top(n) {
+    this.#rows = n;
+    this.#offet = 0;
+    return this;
+  }
+  page(pageNumber, pageSize) {
+    this.#pageNumber = pageNumber;
+    this.#pageSize = pageSize;
+    this.#offet = (pageNumber - 1) * pageSize;
+    this.#rows = pageSize;
+    return this;
+  }
   /**
    * from table
    * @param  {...any} tables
@@ -100,9 +127,9 @@ export default class Query extends Where {
       groupsBy: this.groupsBy,
       distinctsBy: this.distinctsBy,
       froms: this.froms,
-      from: this.froms.join(","),
-      table: this.froms.join(","),
       rows: this.rows,
+      pageNumber: this.pageNumber,
+      pageSize: this.pageSize,
       offset: this.offset,
     };
   }

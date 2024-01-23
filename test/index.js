@@ -11,7 +11,7 @@ import {
 const q1 = query(
   table("table1").join("table2").on("table1.table1Id", "table2.table1Id")
 )
-  .select("a", "b", "c")
+  .page(1, 10)
   .where("a")
   .isEqualTo(10)
   .and("b")
