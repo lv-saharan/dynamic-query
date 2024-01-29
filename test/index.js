@@ -22,7 +22,7 @@ const q1 = query(
   .isBetweenAnd(7, 8)
   .and("b")
   .isBetweenAnd(2, 3)
-  .orderBy("a")
+  .orderBy("a","c")
   .orderByDescending("b")
   .groupBy("a", "b", "c");
 

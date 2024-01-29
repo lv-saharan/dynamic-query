@@ -91,11 +91,14 @@ export default class Query extends Where {
    * @param {String} field
    * @returns {Query}
    */
-  orderBy(field, aspect = "ASC") {
-    this.#ordersBy.push({
-      field,
-      aspect,
-    });
+  orderBy(...fields) {
+    for (let field of fields) {
+      this.#ordersBy.push({
+        field,
+        aspect: "ASC",
+      });
+    }
+
     return this;
   }
   /**
@@ -112,11 +115,14 @@ export default class Query extends Where {
    * @param {String} field
    * @returns {Query}
    */
-  orderByDescending(field) {
-    this.#ordersBy.push({
-      field,
-      aspect: "DESC",
-    });
+  orderByDescending(...fields) {
+    for (let field of fields) {
+      this.#ordersBy.push({
+        field,
+        aspect: "DESC",
+      });
+    }
+
     return this;
   }
   toJSON() {

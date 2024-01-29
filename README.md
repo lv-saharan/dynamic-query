@@ -27,7 +27,7 @@ const q1 = query("table")
   .isBetweenAnd(5, 6)
   .orEndExpression("c")
   .isBetweenAnd(7, 8)
-  .orderBy("a")
+  .orderBy("a","b")
   .groupBy("a", "b", "c");
 ```
 
