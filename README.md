@@ -28,7 +28,8 @@ const q1 = query("table")
   .orEndExpression("c")
   .isBetweenAnd(7, 8)
   .orderBy("a","b")
-  .groupBy("a", "b", "c");
+  .groupBy("a", "b", "c")
+  .having("a").isGreaterThan(3).and("b").isGreaterThan(2)
 ```
 
 ## post to server

@@ -24,10 +24,11 @@ const q1 = query(
   .isBetweenAnd(2, 3)
   .orderBy("a","c")
   .orderByDescending("b")
-  .groupBy("a", "b", "c");
+  .groupBy("a", "b", "c")
+  .having("a").isGreaterThan(3).and("b").isGreaterThan(2)
 
 console.log("q1", q1.toString());
-
+console.log("========================================================");
 const getStartConstraint = (constraintType) => {
   switch (constraintType) {
     case ConstraintType.And:

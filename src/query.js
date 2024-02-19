@@ -1,4 +1,7 @@
 import Where from "./where.js";
+import Constraint from "./contraint.js";
+import ConstraintType from "./constraint-type.js";
+
 export default class Query extends Where {
   #fields = [];
   #distinctsBy = [];
@@ -9,7 +12,13 @@ export default class Query extends Where {
   #offet = 0;
   #pageNumber = NaN;
   #pageSize = NaN;
+  #havings = [];
 
+  #beginHaving = false;
+
+  get havings() {
+    return this.#havings;
+  }
   get rows() {
     return this.#rows;
   }
@@ -125,14 +134,25 @@ export default class Query extends Where {
 
     return this;
   }
+  having(field) {
+    this.#beginHaving = true;
+    return new Constraint(ConstraintType.Where, field, this);
+  }
+  get constraints() {
+    if (this.#beginHaving) {
+      return this.#havings;
+    }
+    return super.constraints;
+  }
   toJSON() {
     return {
+      froms: this.froms,
       fields: this.fields,
-      constraints: this.constraints,
+      constraints: super.constraints,
       ordersBy: this.ordersBy,
       groupsBy: this.groupsBy,
+      havings: this.havings,
       distinctsBy: this.distinctsBy,
-      froms: this.froms,
       rows: this.rows,
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
