@@ -4,17 +4,15 @@ import ConstraintType from "./constraint-type.js";
 
 export default class Query extends Where {
   #fields = [];
-  #distinctsBy = [];
+  #distinct=false;
   #ordersBy = [];
   #groupsby = [];
   #froms = [];
   #rows = 1;
-  #offet = 0;
+  #offset = 0;
   #pageNumber = NaN;
   #pageSize = NaN;
   #havings = [];
-
-  #beginHaving = false;
 
   get havings() {
     return this.#havings;
@@ -28,19 +26,19 @@ export default class Query extends Where {
     }
   }
   get offset() {
-    return this.#offet;
+    return this.#offset;
   }
   set offset(val) {
     if (typeof val === "number" && val > 0) {
-      this.#offet = Number.parseInt(val);
+      this.#offset = Number.parseInt(val);
     }
   }
   get fields() {
     return this.#fields;
   }
 
-  get distinctsBy() {
-    return this.#distinctsBy;
+  get isDistinct() {
+    return this.#distinct;
   }
   get ordersBy() {
     return this.#ordersBy;
@@ -69,6 +67,14 @@ export default class Query extends Where {
   }
 
   /**
+   * distinct option
+   * @returns Query
+   */
+  distinct() {
+    this.#distinct = true;
+    return this;
+  }
+  /**
    * 获取顶部n行数据
    *
    * @param n 获取的行数
@@ -76,13 +82,24 @@ export default class Query extends Where {
    */
   top(n) {
     this.#rows = n;
-    this.#offet = 0;
+    this.#offset = 0;
     return this;
   }
+  limit(skip,take){
+    this.#rows = take;
+    this.#offset = skip;
+    return this;
+  }
+  /**
+   * paging...
+   * @param {Number} pageNumber 
+   * @param {Number} pageSize 
+   * @returns any
+   */
   page(pageNumber, pageSize) {
     this.#pageNumber = pageNumber;
     this.#pageSize = pageSize;
-    this.#offet = (pageNumber - 1) * pageSize;
+    this.#offset = (pageNumber - 1) * pageSize;
     this.#rows = pageSize;
     return this;
   }
@@ -135,12 +152,11 @@ export default class Query extends Where {
     return this;
   }
   having(field) {
-    this.#beginHaving = true;
     return new Constraint(ConstraintType.Where, field, this);
   }
   get constraints() {
-    if (this.#beginHaving) {
-      return this.#havings;
+    if (this.havings.length > 0) {
+      return this.havings;
     }
     return super.constraints;
   }
@@ -152,7 +168,7 @@ export default class Query extends Where {
       ordersBy: this.ordersBy,
       groupsBy: this.groupsBy,
       havings: this.havings,
-      distinctsBy: this.distinctsBy,
+      distinct: this.isDistinct,
       rows: this.rows,
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,

@@ -10,7 +10,7 @@ import {
 
 const q1 = query(
   table("table1").join("table2").on("table1.table1Id", "table2.table1Id")
-)
+).distinct()
   .page(1, 10)
   .where("a")
   .isEqualTo(10)
@@ -25,7 +25,7 @@ const q1 = query(
   .orderBy("a","c")
   .orderByDescending("b")
   .groupBy("a", "b", "c")
-  .having("a").isGreaterThan(3).and("b").isGreaterThan(2)
+  .having("a").isGreaterThan(5).and("b").isGreaterThan(2)
 
 console.log("q1", q1.toString());
 console.log("========================================================");
