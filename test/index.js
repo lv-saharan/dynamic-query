@@ -1,5 +1,5 @@
 import {
-  query,
+  from,
   update,
   insert,
   del,
@@ -8,9 +8,10 @@ import {
   Operator,
 } from "../src/index.js";
 
-const q1 = query(
+const q1 = from(
   table("table1").join("table2").on("table1.table1Id", "table2.table1Id")
 ).distinct()
+  .select("userName","userAge",{field:"userAge",as:"age"})
   .page(1, 10)
   .where("a")
   .isEqualTo(10)

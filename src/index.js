@@ -14,6 +14,10 @@ export function query(...froms) {
   return new Query().from(...froms);
 }
 
+export function from(...froms) {
+  return query(...froms);
+}
+
 export function select(table, ...fields) {
   return query(table).select(...fields);
 }

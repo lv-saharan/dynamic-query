@@ -4,7 +4,7 @@ import ConstraintType from "./constraint-type.js";
 
 export default class Query extends Where {
   #fields = [];
-  #distinct=false;
+  #distinct = false;
   #ordersBy = [];
   #groupsby = [];
   #froms = [];
@@ -13,7 +13,8 @@ export default class Query extends Where {
   #pageNumber = NaN;
   #pageSize = NaN;
   #havings = [];
-
+  //默认使用where，having后为false
+  #usingWhere = true;
   get havings() {
     return this.#havings;
   }
@@ -85,15 +86,15 @@ export default class Query extends Where {
     this.#offset = 0;
     return this;
   }
-  limit(skip,take){
+  limit(skip, take) {
     this.#rows = take;
     this.#offset = skip;
     return this;
   }
   /**
    * paging...
-   * @param {Number} pageNumber 
-   * @param {Number} pageSize 
+   * @param {Number} pageNumber
+   * @param {Number} pageSize
    * @returns any
    */
   page(pageNumber, pageSize) {
@@ -151,11 +152,16 @@ export default class Query extends Where {
 
     return this;
   }
+  where(field) {
+    this.#usingWhere = true;
+    return super.where(field);
+  }
   having(field) {
-    return new Constraint(ConstraintType.Where, field, this);
+    this.#usingWhere = false;
+    return new Constraint(ConstraintType.Where, field, this, this.havings);
   }
   get constraints() {
-    if (this.havings.length > 0) {
+    if (!this.#usingWhere) {
       return this.havings;
     }
     return super.constraints;
@@ -163,16 +169,16 @@ export default class Query extends Where {
   toJSON() {
     return {
       froms: this.froms,
+      distinct: this.isDistinct,
       fields: this.fields,
       constraints: super.constraints,
       ordersBy: this.ordersBy,
       groupsBy: this.groupsBy,
       havings: this.havings,
-      distinct: this.isDistinct,
-      rows: this.rows,
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
       offset: this.offset,
+      rows: this.rows,
     };
   }
 }

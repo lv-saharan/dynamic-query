@@ -15,9 +15,9 @@ npm i dynamic-query
 ## create query
 
 ```javascript
-import { query, Query } from "dynamic-query";
+import { from, Query } from "dynamic-query";
 
-const q1 = query("table")
+const q1 = from("table")
   .select("a", "b", "c")
   .where("a")
   .isEqualTo(10)
