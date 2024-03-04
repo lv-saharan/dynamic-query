@@ -8,7 +8,7 @@ export default class Query extends Where {
   #ordersBy = [];
   #groupsby = [];
   #froms = [];
-  #rows = 1;
+  #rows = 0;
   #offset = 0;
   #pageNumber = NaN;
   #pageSize = NaN;
