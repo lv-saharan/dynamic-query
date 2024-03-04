@@ -1,6 +1,6 @@
 {
   "name": "dynamic-query",
-  "version": "1.0.13",
+  "version": "1.0.15",
   "description": "build a query object",
   "type": "module",
   "main": "src/index.js",

@@ -86,9 +86,33 @@ export default class Query extends Where {
     this.#offset = 0;
     return this;
   }
+  /**
+   * use as limit
+   * @param {Number} skip 
+   * @param {Number} take 
+   * @returns 
+   */
   limit(skip, take) {
     this.#rows = take;
     this.#offset = skip;
+    return this;
+  }
+  /**
+   * skip n rows
+   * @param {Number} n 
+   * @returns 
+   */
+  skip(n){
+    this.#offset = n;
+    return this;
+  }
+  /**
+   * take n rows
+   * @param {Number} n 
+   * @returns 
+   */
+  take(n){
+    this.#rows = n;
     return this;
   }
   /**
