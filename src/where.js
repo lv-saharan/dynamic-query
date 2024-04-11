@@ -40,12 +40,28 @@ export default class Where {
     return new Constraint(ConstraintType.AndStartExpression, field, this);
   }
   /**
+   * as andStartExpression
+   * @param {*} field
+   * @returns
+   */
+  andLeft(field) {
+    return this.andStartExpression(field);
+  }
+  /**
    * Or ( field ...
    * @param {String} field
    * @returns {Constraint}
    */
   orStartExpression(field) {
     return new Constraint(ConstraintType.OrStartExpression, field, this);
+  }
+  /**
+   * as orStartExpression
+   * @param {*} field
+   * @returns
+   */
+  orLeft(field) {
+    return this.orStartExpression(field);
   }
   /**
    * And field ...)
@@ -56,12 +72,28 @@ export default class Where {
     return new Constraint(ConstraintType.AndEndExpression, field, this);
   }
   /**
+   * as andEndExpression
+   * @param {*} field
+   * @returns
+   */
+  andRight(field) {
+    return this.andEndExpression(field);
+  }
+  /**
    * Or field ... )
    * @param {String} field
    * @returns {Constraint}
    */
   orEndExpression(field) {
     return new Constraint(ConstraintType.OrEndExpression, field, this);
+  }
+  /**
+   * as orEndExpression
+   * @param {*} field
+   * @returns
+   */
+  orRight(field) {
+    return this.orEndExpression(field);
   }
   /**
    * )
@@ -71,6 +103,14 @@ export default class Where {
   closeExpression() {
     this.Constraints.push(new Constraint(ConstraintType.CloseExpression));
     return this;
+  }
+
+  right() {
+    return this.closeExpression();
+  }
+
+  close() {
+    return this.closeExpression();
   }
 
   /**

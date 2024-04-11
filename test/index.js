@@ -10,11 +10,14 @@ import {
 
 const q1 = from(
   table("table1").join("table2").on("table1.table1Id", "table2.table1Id")
-).distinct()
-  .select("userName","userAge",{field:"userAge",as:"age"})
+)
+  .distinct()
+  .select("userName", "userAge", { field: "userAge", as: "age" })
   .page(1, 10)
   .where("a")
   .isEqualTo(10)
+  .and()
+  .exists(from("sub").select("subId").where("subId").isEqualTo(1))
   .and("b")
   .in(1, 2, 3)
   .andStartExpression("c")
@@ -23,10 +26,13 @@ const q1 = from(
   .isBetweenAnd(7, 8)
   .and("b")
   .isBetweenAnd(2, 3)
-  .orderBy("a","c")
+  .orderBy("a", "c")
   .orderByDescending("b")
   .groupBy("a", "b", "c")
-  .having("a").isGreaterThan(5).and("b").isGreaterThan(2)
+  .having("a")
+  .isGreaterThan(5)
+  .and("b")
+  .isGreaterThan(2);
 
 console.log("q1", q1.toString());
 console.log("========================================================");

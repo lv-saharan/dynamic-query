@@ -5,6 +5,7 @@ import Query from "./query.js";
 import Insert from "./insert.js";
 import Update from "./update.js";
 import Delete from "./delete.js";
+import Constraint from "./contraint.js";
 /**
  * create Query
  * @param  {...any} froms
@@ -21,6 +22,7 @@ export function from(...froms) {
 export function select(table, ...fields) {
   return query(table).select(...fields);
 }
+
 export {
   Query,
   Insert,

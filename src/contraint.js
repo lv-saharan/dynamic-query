@@ -17,6 +17,7 @@ class Constraint {
 
     this.#query = query;
 
+    //having 是需要把约束加到havings中
     Array.isArray(constraints)
       ? constraints.push(this)
       : this.#query.constraints.push(this);
@@ -190,6 +191,16 @@ class Constraint {
   notEndsWith(value) {
     this.operator = Operator.NotEndsWith;
     this.value = value;
+    return this.#query;
+  }
+  exists(query) {
+    this.operator = Operator.Exists;
+    this.value = query;
+    return this.#query;
+  }
+  notExists(query) {
+    this.operator = Operator.NotExists;
+    this.value = query;
     return this.#query;
   }
 }
